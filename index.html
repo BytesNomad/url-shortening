@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script>
+    $(document).ready(function(){
+        $("#submitBtn").click(function(){
+            $.ajax({
+                type: "get",
+                url: "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod",
+                data: {
+
+                },
+                dataType:'json',  //【这里要小心啊，不要用jsonp，一定是json】
+                crossDomain: true,  //【这个很重要，一定要加】
+                success: function(result){
+                    console.log(result);
+                },
+                error:function(result){
+                    console.log(result);
+                }
+            });
+        });
+
+
+    });
+</script>
+<body>
+    <form action="/">
+        URL:<br>
+        <input type="text" name="url" >
+        <br>
+        <input type="button" id="submitBtn" value="submit">
+
+    </form>
+</body>
+</html>
