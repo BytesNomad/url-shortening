@@ -55,7 +55,6 @@ Resources:
           Properties:
             Path: /
             Method: GET
-            Cros: true
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
