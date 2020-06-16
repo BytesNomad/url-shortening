@@ -37,6 +37,9 @@ describe('Test putItemHandler', () => {
         const expectedResult = {
             statusCode: 200,
             body: event.body,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
         };
 
         // Compare the result with the expected result

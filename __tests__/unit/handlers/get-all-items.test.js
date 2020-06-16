@@ -39,6 +39,9 @@ describe('Test getAllItemsHandler', () => {
         const expectedResult = {
             statusCode: 200,
             body: JSON.stringify(items),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
         };
 
         // Compare the result with the expected result

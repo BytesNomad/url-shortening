@@ -42,6 +42,9 @@ describe('Test getByIdHandler', () => {
         const expectedResult = {
             statusCode: 200,
             body: JSON.stringify(item),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
         };
 
         // Compare the result with the expected result
