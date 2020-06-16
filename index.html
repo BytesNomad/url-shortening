@@ -13,12 +13,12 @@
                 type: "get",
                 url: "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod",
                 data: {
-
                 },
-                dataType:'json',  //【这里要小心啊，不要用jsonp，一定是json】
-                crossDomain: true,  //【这个很重要，一定要加】
+                dataType:'json',
+                crossDomain: true,
                 success: function(result){
                     console.log(result);
+                    $("#shortenUrl").val(JSON.stringify(result));
                 },
                 error:function(result){
                     console.log(result);
@@ -30,10 +30,15 @@
     });
 </script>
 <body>
-    <form action="/">
-        URL:<br>
-        <input type="text" name="url" >
+    <form action="/" >
+        URL        : <input type="text" id="url" style="width:900px;" >
         <br>
+        <br>
+
+        Shorten URL: <input type="text" id="shortenUrl" style="width:600px;" >
+        <br>
+        <br>
+
         <input type="button" id="submitBtn" value="submit">
 
     </form>
