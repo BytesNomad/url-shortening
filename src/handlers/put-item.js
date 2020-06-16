@@ -34,6 +34,9 @@ exports.putItemHandler = async (event) => {
     const response = {
         statusCode: 200,
         body,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
     };
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);

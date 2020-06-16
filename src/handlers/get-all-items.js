@@ -29,6 +29,9 @@ exports.getAllItemsHandler = async (event) => {
     const response = {
         statusCode: 200,
         body: JSON.stringify(Items),
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
     };
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
