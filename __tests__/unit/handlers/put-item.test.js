@@ -21,7 +21,7 @@ describe('Test putItemHandler', () => {
     });
 
     // This test invokes putItemHandler and compares the result
-    it('should add id to the table', async () => {
+    it('should add url to the table', async () => {
         // Return the specified value whenever the spied put function is called
         putSpy.mockReturnValue({
             promise: () => Promise.resolve('data'),
@@ -29,14 +29,14 @@ describe('Test putItemHandler', () => {
 
         const event = {
             httpMethod: 'POST',
-            body: '{"id":"id1","name":"name1"}',
+            body: '{"url":"http://www.aws.com"}',
         };
 
         // Invoke putItemHandler()
         const result = await lambda.putItemHandler(event);
         const expectedResult = {
             statusCode: 200,
-            body: event.body,
+            body: {shortUrl: '8c2f2e0c'},
             headers: {
                 'Access-Control-Allow-Origin': '*',
             },

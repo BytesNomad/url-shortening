@@ -2,6 +2,8 @@
 
 // Create a DocumentClient that represents the query to add an item
 const dynamodb = require('aws-sdk/clients/dynamodb');
+const md5 = require('crypto-js/md5');
+
 
 const docClient = new dynamodb.DocumentClient();
 
@@ -9,7 +11,7 @@ const docClient = new dynamodb.DocumentClient();
 const tableName = process.env.SAMPLE_TABLE;
 
 /**
- * A simple example includes a HTTP post method to add one item to a DynamoDB table.
+ * generates short URS and add item to a DynamoDB table.
  */
 exports.putItemHandler = async (event) => {
     const { body, httpMethod, path } = event;
@@ -21,19 +23,20 @@ exports.putItemHandler = async (event) => {
     console.log('received:', JSON.stringify(event));
 
     // Get id and name from the body of the request
-    const { id, name } = JSON.parse(body);
+    const { url } = JSON.parse(body);
+    const shortUrl = md5(url).toString().slice(0, 8);
 
     // Creates a new item, or replaces an old item with a new item
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
     const params = {
         TableName: tableName,
-        Item: { id, name },
+        Item: { url, shortUrl },
     };
     await docClient.put(params).promise();
 
     const response = {
         statusCode: 200,
-        body,
+        body: {shortUrl},
         headers: {
             'Access-Control-Allow-Origin': '*',
         },

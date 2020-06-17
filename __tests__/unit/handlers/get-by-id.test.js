@@ -21,8 +21,8 @@ describe('Test getByIdHandler', () => {
     });
 
     // This test invokes getByIdHandler and compares the result
-    it('should get item by id', async () => {
-        const item = { id: 'id1' };
+    it('should get url by shortUrl', async () => {
+        const item = { shortUrl: '8c2f2e0c', url: 'http://www.aws.com' };
 
         // Return the specified value whenever the spied get function is called
         getSpy.mockReturnValue({
@@ -32,7 +32,7 @@ describe('Test getByIdHandler', () => {
         const event = {
             httpMethod: 'GET',
             pathParameters: {
-                id: 'id1',
+                shortUrl: '8c2f2e0c',
             },
         };
 
@@ -40,10 +40,11 @@ describe('Test getByIdHandler', () => {
         const result = await lambda.getByIdHandler(event);
 
         const expectedResult = {
-            statusCode: 200,
-            body: JSON.stringify(item),
+            statusCode: 301,
             headers: {
                 'Access-Control-Allow-Origin': '*',
+                'Location': 'http://www.aws.com'
+
             },
         };
 

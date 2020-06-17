@@ -9,7 +9,7 @@ const docClient = new dynamodb.DocumentClient();
 const tableName = process.env.SAMPLE_TABLE;
 
 /**
- * A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+ * get URL by short URL from a DynamoDB table.
  */
 exports.getByIdHandler = async (event) => {
     const { httpMethod, path, pathParameters } = event;
@@ -21,21 +21,21 @@ exports.getByIdHandler = async (event) => {
     console.log('received:', JSON.stringify(event));
 
     // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
-    const { id } = pathParameters;
+    const { shortUrl } = pathParameters;
 
     // Get the item from the table
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property
     const params = {
         TableName: tableName,
-        Key: { id },
+        Key: { shortUrl },
     };
     const { Item } = await docClient.get(params).promise();
 
     const response = {
-        statusCode: 200,
-        body: JSON.stringify(Item),
+        statusCode: 301,
         headers: {
             'Access-Control-Allow-Origin': '*',
+            'Location': Item.url
         },
     };
 
