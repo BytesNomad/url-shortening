@@ -1,6 +1,6 @@
 {
     "httpMethod": "GET",
     "pathParameters": {
-        "id": "id1"
+        "shortUrl": "8c2f2e0c"
     }
 }

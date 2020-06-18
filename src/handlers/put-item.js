@@ -11,7 +11,7 @@ const docClient = new dynamodb.DocumentClient();
 const tableName = process.env.SAMPLE_TABLE;
 
 /**
- * generates short URS and add item to a DynamoDB table.
+ * generates short URL and put item to a DynamoDB table.
  */
 exports.putItemHandler = async (event) => {
     const { body, httpMethod, path } = event;
@@ -24,7 +24,7 @@ exports.putItemHandler = async (event) => {
 
     // Get id and name from the body of the request
     const { url } = JSON.parse(body);
-    const shortUrl = md5(url).toString().slice(0, 8);
+    const shortUrl = shortURL(url);
 
     // Creates a new item, or replaces an old item with a new item
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property
@@ -45,3 +45,7 @@ exports.putItemHandler = async (event) => {
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
     return response;
 };
+
+function shortURL(url) {
+   return md5(url).toString().slice(0, 8);
+}

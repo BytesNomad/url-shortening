@@ -22,7 +22,7 @@ describe('Test getAllItemsHandler', () => {
 
     // This test invokes getAllItemsHandler and compares the result
     it('should return ids', async () => {
-        const items = [{ id: 'id1' }, { id: 'id2' }];
+        const items = [{ shortUrl: 'id1' }, { shortUrl: 'id2' }];
 
         // Return the specified value whenever the spied scan function is called
         scanSpy.mockReturnValue({
