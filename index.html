@@ -8,10 +8,11 @@
 </script>
 <script>
     $(document).ready(function(){
+        const endpoint = "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod/";
         $("#submitBtn").click(function(){
             $.ajax({
                 type: "post",
-                url: "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod",
+                url: endpoint,
                 data: {
                     url : $("#url")
                 },

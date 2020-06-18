@@ -3,6 +3,8 @@ const dynamodb = require('aws-sdk/clients/dynamodb');
 
 // Import all functions from put-item.js
 const lambda = require('../../../src/handlers/put-item.js');
+const endpoint = "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod/";
+
 
 // This includes all tests for putItemHandler
 describe('Test putItemHandler', () => {
@@ -34,7 +36,7 @@ describe('Test putItemHandler', () => {
         const result = await lambda.putItemHandler(event);
         const expectedResult = {
             statusCode: 200,
-            body: {shortUrl: '8c2f2e0c'},
+            body: {shortUrl: endpoint+'8c2f2e0c'},
             headers: {
                 'Access-Control-Allow-Origin': '*',
             },
