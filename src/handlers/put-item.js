@@ -40,13 +40,13 @@ exports.putItemHandler = async (event) => {
 
     const response = {
         statusCode: 200,
-        body: {shortUrl: endpoint+shortUrl},
+        body: {shortUrl: shortUrl},
         headers: {
             'Access-Control-Allow-Origin': '*',
         },
     };
 
-    console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
+    console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body.shortUrl}`);
     return response;
 };
 
