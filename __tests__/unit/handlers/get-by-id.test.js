@@ -51,4 +51,35 @@ describe('Test getByIdHandler', () => {
         // Compare the result with the expected result
         expect(result).toEqual(expectedResult);
     });
+
+    it('should error when use none GET method', async () => {
+        const item = { shortUrl: '8c2f2e0c', url: 'http://www.aws.com' };
+
+        // Return the specified value whenever the spied get function is called
+        getSpy.mockReturnValue({
+            promise: () => Promise.resolve({ Item: item }),
+        });
+        const event = {
+            httpMethod: 'POST',
+            pathParameters: {
+                shortUrl: '8c2f2e0c',
+            },
+        };
+        await expect(lambda.getByIdHandler(event)).rejects.toThrowError(`getMethod only accept GET method, you tried: POST`);
+    });
+    it('should error when get by unknown short URL ', async () => {
+
+        // Return the specified value whenever the spied get function is called
+        getSpy.mockReturnValue({
+            promise: () => Promise.resolve({}),
+        });
+        const event = {
+            httpMethod: 'GET',
+            pathParameters: {
+                shortUrl: '8c2f2e0c',
+            },
+        };
+        await expect(lambda.getByIdHandler(event)).rejects.toThrowError('can\'t find URL by ShortUrl: 8c2f2e0c');
+    });
+
 });

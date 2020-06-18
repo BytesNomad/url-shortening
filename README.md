@@ -27,21 +27,16 @@ The sample application creates a RESTful API that takes HTTP requests and invoke
 1. At the command line, use cURL to send POST requests to the application endpoint.
 
         $ ENDPOINT=<paste-your-endpoint-here>
-        $ curl -d '{"id":"1234ABCD", "name":"My item"}' -H "Content-Type: application/json" -X POST $ENDPOINT
-        {"id":"1234ABCD","name":"My item"}
-        $ curl -d '{"id":"2234ABCD", "name":"My other item"}' -H "Content-Type: application/json" -X POST $ENDPOINT
-        {"id":"2234ABCD","name":"My other item"}
-
-1. Send a GET request to the endpoint to get a list of items.
-
-        $ curl $ENDPOINT
-        [{"id":"1234ABCD","name":"My item"},{"id":"2234ABCD","name":"My other item"}]
+        $ curl -d '{"url":"www.aws.com"}' -H "Content-Type: application/json" -X POST $ENDPOINT
+        {"shortUrl":"8c2f2e0c"}
+        
 
 1. Send a GET request with the item ID to get a single item.
 
-        $ curl $ENDPOINT/1234ABCD
-        {"id":"1234ABCD","name":"My item"}
-
+        $ curl -v $ENDPOINT/8c2f2e0c
+        
+       
+        
 To view the application's API, functions, and table, use the links in the **Resources** section of the application overview in the Lambda console.
 
 
@@ -78,8 +73,8 @@ Test a single function by invoking it directly with a test event. An event is a 
 Run functions locally and invoke them with the `sam local invoke` command.
 
 ```bash
-my-application$ sam local invoke putItemFunction --event events/event-post-item.json
-my-application$ sam local invoke getAllItemsFunction --event events/event-get-all-items.json
+my-application$ sam local invoke putItemFunction --event events/event-post-item.json  --env-vars env.json
+my-application$ sam local invoke getByIdFunction --event events/event-get-by-id.json  --env-vars env.json
 ```
 
 The AWS SAM CLI can also emulate your application's API. Use the `sam local start-api` command to run the API locally on port 3000.

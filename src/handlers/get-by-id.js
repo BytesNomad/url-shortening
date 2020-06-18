@@ -23,6 +23,10 @@ exports.getByIdHandler = async (event) => {
     // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
     const { shortUrl } = pathParameters;
 
+    if(!shortUrl){
+        throw new Error(`shortUrl is empty in pathParameters, need to input.`);
+    }
+
     // Get the item from the table
     // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property
     const params = {
@@ -30,6 +34,10 @@ exports.getByIdHandler = async (event) => {
         Key: { shortUrl },
     };
     const { Item } = await docClient.get(params).promise();
+
+    if(!Item){
+        throw new Error(`can't find URL by ShortUrl: `+shortUrl);
+    }
 
     const response = {
         statusCode: 301,

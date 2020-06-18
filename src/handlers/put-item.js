@@ -24,6 +24,9 @@ exports.putItemHandler = async (event) => {
 
     // Get id and name from the body of the request
     const { url } = JSON.parse(body);
+    if(!url){
+        throw new Error(`url is empty in body, need to input.`);
+    }
     const shortUrl = shortURL(url);
 
     // Creates a new item, or replaces an old item with a new item

@@ -1,6 +1,4 @@
 {
     "httpMethod": "POST",
-    "body": {
-        "url" : "http://www.aws.com"
-    }
+    "body": "{\"url\" : \"http://www.aws.com\"}"
 }
