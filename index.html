@@ -10,15 +10,16 @@
     $(document).ready(function(){
         $("#submitBtn").click(function(){
             $.ajax({
-                type: "get",
+                type: "post",
                 url: "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod",
                 data: {
+                    url : $("#url")
                 },
                 dataType:'json',
                 crossDomain: true,
                 success: function(result){
                     console.log(result);
-                    $("#shortenUrl").val(JSON.stringify(result));
+                    $("#shortenUrl").val(result.shortUrl);
                 },
                 error:function(result){
                     console.log(result);
