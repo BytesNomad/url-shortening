@@ -31,9 +31,8 @@ describe('Test getByIdHandler', () => {
 
         const event = {
             httpMethod: 'GET',
-            pathParameters: {
-                shortUrl: '8c2f2e0c',
-            },
+            path: '8c2f2e0c',
+
         };
 
         // Invoke getByIdHandler
@@ -60,9 +59,8 @@ describe('Test getByIdHandler', () => {
         });
         const event = {
             httpMethod: 'POST',
-            pathParameters: {
-                shortUrl: '8c2f2e0c',
-            },
+            path: '8c2f2e0c',
+
         };
         const result = await lambda.getByIdHandler(event);
         const expectedResult = {
@@ -71,7 +69,6 @@ describe('Test getByIdHandler', () => {
             },
             statusCode: 400,
             body: JSON.stringify({success: false, error: "getMethod only accept GET method, you tried: POST", data: {}}),
-
         };
         // Compare the result with the expected result
         expect(result).toEqual(expectedResult);
@@ -85,9 +82,8 @@ describe('Test getByIdHandler', () => {
         });
         const event = {
             httpMethod: 'GET',
-            pathParameters: {
-                shortUrl: '8c2f2e0c',
-            },
+            path: '8c2f2e0c',
+
         };
         const result = await lambda.getByIdHandler(event);
         const expectedResult = {

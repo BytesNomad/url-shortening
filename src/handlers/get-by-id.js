@@ -31,12 +31,12 @@ exports.getByIdHandler = async (event) => {
     console.log('received:', JSON.stringify(event));
 
     // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
-    const { shortUrl } = pathParameters;
+    const  shortUrl  = path;
 
     if(!shortUrl){
         response.statusCode = 400;
         responseBody.success = false;
-        responseBody.error = `shortUrl is empty in pathParameters, need to input.`;
+        responseBody.error = `shortUrl is empty in path, need to input.`;
     }
 
     // Get the item from the table
