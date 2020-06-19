@@ -3,7 +3,7 @@ const dynamodb = require('aws-sdk/clients/dynamodb');
 
 // Import all functions from put-item.js
 const lambda = require('../../../src/handlers/put-item.js');
-const endpoint = "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod/";
+const endpoint = "http://shorten-url-demo.s3-website-ap-southeast-1.amazonaws.com/rest/";
 
 
 // This includes all tests for putItemHandler
