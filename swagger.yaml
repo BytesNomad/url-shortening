@@ -1,0 +1,65 @@
+swagger: "2.0"
+info:
+  description: "URL shortening REST"
+  version: "1.0.0"
+  title: "URL shortening"
+basePath: "/Prod"
+
+schemes:
+- "https"
+- "http"
+paths:
+  /:
+    post:
+      summary: "make short URL for URL"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Url"
+      responses:
+        "400":
+          description: "Invalid input"
+        "502":
+          description: "InernalSystmeError"   
+    
+  /{shortURL}:
+    get:
+    
+      summary: "get URL from short URL"
+      description: ""
+      parameters:
+      - name: "shortURL"
+        in: "path"
+        description: "ID of pet to update"
+        required: true
+        type: "string"
+      responses:
+        "302":
+          description: "redirect the Location URL"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "URL not found"
+        "502":
+          description: "InernalSystmeError"
+      
+  
+definitions:
+  Url:
+    type: "object"
+    properties:
+    
+      url:
+        type: "string"
+        description: "long URL"
+        
+    xml:
+      name: "Order"
+  

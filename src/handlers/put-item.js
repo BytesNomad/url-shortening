@@ -9,7 +9,7 @@ const docClient = new dynamodb.DocumentClient();
 
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.SAMPLE_TABLE;
-const endpoint = "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Prod/";
+const endpoint = "http://shorten-url-demo.s3-website-ap-southeast-1.amazonaws.com/rest/";
 
 /**
  * generates short URL and put item to a DynamoDB table.
