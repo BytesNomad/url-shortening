@@ -13,8 +13,18 @@ const tableName = process.env.SAMPLE_TABLE;
  */
 exports.getByIdHandler = async (event) => {
     const { httpMethod, path, pathParameters } = event;
+    let response = {
+        statusCode: 301,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+    };
+    let responseBody = {success: true, error: "", data: {}};
+
     if (httpMethod !== 'GET') {
-        throw new Error(`getMethod only accept GET method, you tried: ${httpMethod}`);
+        response.statusCode = 400;
+        responseBody.success = false;
+        responseBody.error = `getMethod only accept GET method, you tried: ${httpMethod}`;
     }
     // All log statements are written to CloudWatch by default. For more information, see
     // https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-logging.html
@@ -24,7 +34,9 @@ exports.getByIdHandler = async (event) => {
     const { shortUrl } = pathParameters;
 
     if(!shortUrl){
-        throw new Error(`shortUrl is empty in pathParameters, need to input.`);
+        response.statusCode = 400;
+        responseBody.success = false;
+        responseBody.error = `shortUrl is empty in pathParameters, need to input.`;
     }
 
     // Get the item from the table
@@ -33,19 +45,21 @@ exports.getByIdHandler = async (event) => {
         TableName: tableName,
         Key: { shortUrl },
     };
-    const { Item } = await docClient.get(params).promise();
-
-    if(!Item){
-        throw new Error(`can't find URL by ShortUrl: `+shortUrl);
+    if(responseBody.success) {
+        const { Item } = await docClient.get(params).promise();
+        if(!Item){
+            response.statusCode = 404;
+            responseBody.success = false;
+            responseBody.error = `can't find URL by ShortUrl: ${shortUrl}`;
+        } else {
+            response.headers.Location = Item.url;
+        }
+    }
+    if(!responseBody.success) {
+        response.body = JSON.stringify(responseBody);
     }
 
-    const response = {
-        statusCode: 301,
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Location': Item.url
-        },
-    };
+
 
     console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
     return response;

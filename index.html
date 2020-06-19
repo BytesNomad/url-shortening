@@ -20,7 +20,7 @@
                 crossDomain: true,
                 success: function(result){
                     console.log(result);
-                    $("#shortenUrl").val(result.shortUrl);
+                    $("#shortenUrl").val(result.data.shortUrl);
                 },
                 error:function(result){
                     console.log(result);

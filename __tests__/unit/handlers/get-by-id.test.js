@@ -44,7 +44,6 @@ describe('Test getByIdHandler', () => {
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Location': 'http://www.aws.com'
-
             },
         };
 
@@ -65,7 +64,18 @@ describe('Test getByIdHandler', () => {
                 shortUrl: '8c2f2e0c',
             },
         };
-        await expect(lambda.getByIdHandler(event)).rejects.toThrowError(`getMethod only accept GET method, you tried: POST`);
+        const result = await lambda.getByIdHandler(event);
+        const expectedResult = {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+            statusCode: 400,
+            body: JSON.stringify({success: false, error: "getMethod only accept GET method, you tried: POST", data: {}}),
+
+        };
+        // Compare the result with the expected result
+        expect(result).toEqual(expectedResult);
+
     });
     it('should error when get by unknown short URL ', async () => {
 
@@ -79,7 +89,17 @@ describe('Test getByIdHandler', () => {
                 shortUrl: '8c2f2e0c',
             },
         };
-        await expect(lambda.getByIdHandler(event)).rejects.toThrowError('can\'t find URL by ShortUrl: 8c2f2e0c');
+        const result = await lambda.getByIdHandler(event);
+        const expectedResult = {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+            statusCode: 404,
+            body: JSON.stringify({success: false, error: "can\'t find URL by ShortUrl: 8c2f2e0c", data: {}}),
+
+        };
+        // Compare the result with the expected result
+        expect(result).toEqual(expectedResult);
     });
 
 });
