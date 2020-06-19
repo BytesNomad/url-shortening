@@ -31,7 +31,7 @@ exports.getByIdHandler = async (event) => {
     console.log('received:', JSON.stringify(event));
 
     // Get id from pathParameters from APIGateway because of `/{id}` at template.yml
-    const  shortUrl  = path;
+    const  shortUrl  = path.slice(1);
 
     if(!shortUrl){
         response.statusCode = 400;
