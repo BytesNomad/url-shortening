@@ -16,8 +16,20 @@ const endpoint = "https://d11u00o14a.execute-api.ap-southeast-1.amazonaws.com/Pr
  */
 exports.putItemHandler = async (event) => {
     const { body, httpMethod, path } = event;
+
+    let response = {
+        statusCode: 200,
+        body: "",
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+    };
+    let responseBody = {success: true, error: "", data: {}};
+
     if (httpMethod !== 'POST') {
-        throw new Error(`postMethod only accepts POST method, you tried: ${httpMethod} method.`);
+        response.statusCode = 400;
+        responseBody.success = false;
+        responseBody.error = `postMethod only accepts POST method, you tried: ${httpMethod} method.`;
     }
     // All log statements are written to CloudWatch by default. For more information, see
     // https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-logging.html
@@ -26,7 +38,9 @@ exports.putItemHandler = async (event) => {
     // Get id and name from the body of the request
     const { url } = JSON.parse(body);
     if(!url){
-        throw new Error(`url is empty in body, need to input.`);
+        response.statusCode = 400;
+        responseBody.success = false;
+        responseBody.error = "url is empty in body, need to input.";
     }
     const shortUrl = shortURL(url);
 
@@ -36,17 +50,13 @@ exports.putItemHandler = async (event) => {
         TableName: tableName,
         Item: { url, shortUrl },
     };
-    await docClient.put(params).promise();
+    if(responseBody.success) {
+        await docClient.put(params).promise();
+        responseBody.data = {shortUrl: endpoint + shortUrl};
+    }
 
-    const response = {
-        statusCode: 200,
-        body: {shortUrl: endpoint+shortUrl},
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-        },
-    };
-
-    console.log(`response from: ${path} statusCode: ${response.statusCode} body.shortUrl: ${response.body.shortUrl}`);
+    response.body = JSON.stringify(responseBody);
+    console.log(`response from: ${path} statusCode: ${response.statusCode} body: ${response.body}`);
     return response;
 };
 

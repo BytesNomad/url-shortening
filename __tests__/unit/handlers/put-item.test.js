@@ -36,7 +36,7 @@ describe('Test putItemHandler', () => {
         const result = await lambda.putItemHandler(event);
         const expectedResult = {
             statusCode: 200,
-            body: {shortUrl: endpoint+'8c2f2e0c'},
+            body: JSON.stringify({success: true, error: "", data: {shortUrl: endpoint+'8c2f2e0c'}}),
             headers: {
                 'Access-Control-Allow-Origin': '*',
             },
@@ -56,7 +56,16 @@ describe('Test putItemHandler', () => {
             httpMethod: 'GET',
             body: '{"url":"http://www.aws.com"}',
         };
-        await expect(lambda.putItemHandler(event)).rejects.toThrowError("postMethod only accepts POST method, you tried: GET method.");
+        const expectedResult = {
+            statusCode: 400,
+            body: JSON.stringify({success: false, error: "postMethod only accepts POST method, you tried: GET method.", data: {}}),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+        };
+        const result = await lambda.putItemHandler(event);
+        // Compare the result with the expected result
+        expect(result).toEqual(expectedResult);
     });
     it('should error when no url in body ', async () => {
 
@@ -68,6 +77,15 @@ describe('Test putItemHandler', () => {
             httpMethod: 'POST',
             body: '{"urlxxxx":"http://www.aws.com"}',
         };
-        await expect(lambda.putItemHandler(event)).rejects.toThrowError("url is empty in body, need to input.");
+        const expectedResult = {
+            statusCode: 400,
+            body: JSON.stringify({success: false, error: "url is empty in body, need to input.", data: {}}),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+        };
+        const result = await lambda.putItemHandler(event);
+        // Compare the result with the expected result
+        expect(result).toEqual(expectedResult);
     });
 });
